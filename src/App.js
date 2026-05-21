@@ -34,7 +34,7 @@ async function extractTextFromPDF(file) {
     reader.onload = async (e) => {
       try {
         const base64 = e.target.result.split(',')[1];
-        const response = await fetch("https://api.anthrop/api/anthropicic.com/v1/messages", {
+        const response = await fetch(" /api/anthropic", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
