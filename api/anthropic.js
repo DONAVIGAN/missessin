@@ -23,6 +23,7 @@ export default async function handler(req, res) {
       }
     );
     const data = await geminiRes.json();
+    console.log('Gemini response:', JSON.stringify(data).slice(0, 500));
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Aucune réponse';
     return res.status(200).json({ content: [{ type: 'text', text }] });
   } catch (error) {
