@@ -165,7 +165,7 @@ export default function App() {
         messages: apiMessages,
       };
 
-      if (webSearch) {
+      
         body.tools = [{ type: "web_search_20250305", name: "web_search" }];
       }
 
