@@ -6,35 +6,25 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   try {
     const { messages, system } = req.body;
-    
-    // Search OHADA jurisprudence
-    const lastQuestion = messages[messages.length-1]?.content || '';
-    let ohadaContext = '';
-    try {
-      const ohadaRes = await fetch(`https://www.ohada.com/search?q=${encodeURIComponent(lastQuestion)}&format=json`);
-      if (ohadaRes.ok) {
-        const ohadaData = await ohadaRes.json();
-        ohadaContext = '\n\nJURISPRUDENCE OHADA PERTINENTE:\n' + JSON.stringify(ohadaData).slice(0, 2000);
-      }
-    } catch(e) {}
-
-    const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
+        model: 'claude-sonnet-4-20250514',
         max_tokens: 2000,
-        messages: [
-          { role: 'system', content: (system || '').slice(0, 8000) + ohadaContext },
-          ...messages.map(m => ({ role: m.role, content: typeof m.content === 'string' ? m.content : JSON.stringify(m.content) }))
-        ]
+        system: (system || '').slice(0, 50000),
+        messages: messages.map(m => ({
+          role: m.role,
+          content: typeof m.content === 'string' ? m.content : JSON.stringify(m.content)
+        }))
       }),
     });
-    const data = await groqRes.json();
-    const text = data.choices?.[0]?.message?.content || JSON.stringify(data);
+    const data = await response.json();
+    const text = data.content?.map(b => b.text || '').join('\n') || JSON.stringify(data);
     return res.status(200).json({ content: [{ type: 'text', text }] });
   } catch (error) {
     return res.status(500).json({ error: error.message });
