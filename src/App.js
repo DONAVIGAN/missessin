@@ -166,8 +166,8 @@ export default function App() {
       };
 
       
-        body.tools = [{ type: "web_search_20250305", name: "web_search" }];
-      }
+        
+      } 
 
       const response = await fetch("/api/anthropic", {
         method: "POST",
