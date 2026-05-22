@@ -16,7 +16,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: 'claude-haiku-4-5',
         max_tokens: 2000,
-        system: (system || '').slice(0, 50000),
+        system: (system || '').slice(0, 20000),
         messages: messages.map(m => ({
           role: m.role,
           content: typeof m.content === 'string' ? m.content : JSON.stringify(m.content)
