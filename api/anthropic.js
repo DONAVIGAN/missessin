@@ -6,6 +6,18 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   try {
     const { messages, system } = req.body;
+    
+    // Search OHADA jurisprudence
+    const lastQuestion = messages[messages.length-1]?.content || '';
+    let ohadaContext = '';
+    try {
+      const ohadaRes = await fetch(`https://www.ohada.com/search?q=${encodeURIComponent(lastQuestion)}&format=json`);
+      if (ohadaRes.ok) {
+        const ohadaData = await ohadaRes.json();
+        ohadaContext = '\n\nJURISPRUDENCE OHADA PERTINENTE:\n' + JSON.stringify(ohadaData).slice(0, 2000);
+      }
+    } catch(e) {}
+
     const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -16,7 +28,7 @@ export default async function handler(req, res) {
         model: 'llama-3.3-70b-versatile',
         max_tokens: 2000,
         messages: [
-          { role: 'system', content: (system || '').slice(0, 8000) },
+          { role: 'system', content: (system || '').slice(0, 8000) + ohadaContext },
           ...messages.map(m => ({ role: m.role, content: typeof m.content === 'string' ? m.content : JSON.stringify(m.content) }))
         ]
       }),
