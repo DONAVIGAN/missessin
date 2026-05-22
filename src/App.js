@@ -237,7 +237,7 @@ export default function App() {
                 {[["📗","Code Pénal","988 art.",gold,"rgba(184,150,46,.12)","rgba(184,150,46,.25)"],
                   ["📘","Proc. Pénale","624 art.",blue,"rgba(100,160,255,.08)","rgba(100,160,255,.2)"],
                   ["💻","Code Numérique","645 art.",green,"rgba(80,200,120,.08)","rgba(80,200,120,.2)"],
-                  ["🌐","Web & Juris.","Temps réel","#a0a0ff","rgba(160,160,255,.08)","rgba(160,160,255,.2)"],
+                  ["🌐","Web & Juris.","Temps réel","#a0a0ff","rgba(160,160,255,.08)","rgba(160,160,255,.2)"], 
                 ].map(([ic,nm,ct,cl,bg,br])=>(
                   <div key={nm} style={{ background:bg, border:`1px solid ${br}`, borderRadius:8, padding:"4px 9px", fontSize:9, color:cl }}>{ic} {nm} · {ct}</div>
                 ))}
