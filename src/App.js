@@ -167,7 +167,7 @@ export default function App() {
 
       
         
-      } 
+    
 
       const response = await fetch("/api/anthropic", {
         method: "POST",
