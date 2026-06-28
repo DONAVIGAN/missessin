@@ -208,7 +208,6 @@ useEffect(() => {
 
   const gold = "#b8962e"; const blue = "#4a80c0"; const green = "#60c890";
 
-  return (
     if (!abonne) {
   return (
     <div style={{ minHeight:"100vh", background:"#0b1929", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", fontFamily:"Georgia,serif", padding:"20px" }}>
@@ -237,6 +236,7 @@ useEffect(() => {
     </div>
   );
 }
+  return (
     <div style={{ minHeight:"100vh", background:"#0b1929", display:"flex", flexDirection:"column", fontFamily:"Georgia,serif", color:"#e0d4bc" }}>
 
       {/* Header */}
