@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b1929" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>MISSESSIN — Génération de code</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        background: #0b1929;
+        color: #e6edf3;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 24px 16px;
+      }
+      .card {
+        width: 100%;
+        max-width: 420px;
+        background: #12233a;
+        border: 1px solid #1e3a5f;
+        border-radius: 14px;
+        padding: 24px;
+      }
+      h1 { font-size: 1.25rem; margin-bottom: 4px; }
+      .sous-titre { font-size: 0.85rem; color: #8aa2bd; margin-bottom: 20px; }
+      label { display: block; font-size: 0.85rem; margin: 14px 0 6px; color: #b9c9db; }
+      input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #2a4a70;
+        background: #0b1929;
+        color: #e6edf3;
+        font-size: 1rem;
+      }
+      input:focus { outline: none; border-color: #d4af37; }
+      button {
+        width: 100%;
+        margin-top: 20px;
+        padding: 13px;
+        border: none;
+        border-radius: 8px;
+        background: #d4af37;
+        color: #0b1929;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button:disabled { opacity: 0.6; cursor: not-allowed; }
+      #message { margin-top: 16px; font-size: 0.9rem; color: #ff8080; min-height: 1.2em; }
+      #resultat { margin-top: 20px; display: none; text-align: center; }
+      #resultat .libelle { font-size: 0.85rem; color: #8aa2bd; margin-bottom: 8px; }
+      #code {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #d4af37;
+        background: #0b1929;
+        border: 1px dashed #2a4a70;
+        border-radius: 8px;
+        padding: 14px;
+        word-break: break-all;
+      }
+      #copier { background: #1e3a5f; color: #e6edf3; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Génération de code d'accès</h1>
+      <div class="sous-titre">MISSESSIN — Administration</div>
+
+      <label for="password">Mot de passe admin</label>
+      <input id="password" type="password" autocomplete="off" />
+
+      <label for="telephone">Téléphone du client (optionnel)</label>
+      <input id="telephone" type="tel" inputmode="tel" autocomplete="off" />
+
+      <label for="notes">Notes / référence de paiement (optionnel)</label>
+      <input id="notes" type="text" autocomplete="off" />
+
+      <button id="btn">Générer un nouveau code</button>
+
+      <div id="message"></div>
+
+      <div id="resultat">
+        <div class="libelle">Code généré — à envoyer au client :</div>
+        <div id="code"></div>
+        <button id="copier">Copier le code</button>
+      </div>
+    </div>
+
+    <script>
+      const btn = document.getElementById('btn');
+      const message = document.getElementById('message');
+      const resultat = document.getElementById('resultat');
+
+      btn.addEventListener('click', async () => {
+        const password = document.getElementById('password').value.trim();
+        const telephone = document.getElementById('telephone').value.trim();
+        const notes = document.getElementById('notes').value.trim();
+
+        message.textContent = '';
+        resultat.style.display = 'none';
+
+        if (!password) {
+          message.textContent = 'Mot de passe requis.';
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Génération...';
+
+        try {
+          const r = await fetch('/api/admin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password, telephone, notes })
+          });
+          const data = await r.json();
+
+          if (!r.ok) {
+            message.textContent = data.error || ('Erreur (' + r.status + ').');
+          } else {
+            document.getElementById('code').textContent = data.code;
+            resultat.style.display = 'block';
+          }
+        } catch (e) {
+          message.textContent = 'Erreur réseau : ' + e.message;
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Générer un nouveau code';
+        }
+      });
+
+      document.getElementById('copier').addEventListener('click', () => {
+        const code = document.getElementById('code').textContent;
+        navigator.clipboard.writeText(code).then(() => {
+          const b = document.getElementById('copier');
+          b.textContent = 'Copié ✓';
+          setTimeout(() => { b.textContent = 'Copier le code'; }, 1500);
+        });
+      });
+    </script>
+  </body>
+</html>
