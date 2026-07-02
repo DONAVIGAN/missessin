@@ -232,6 +232,11 @@ useEffect(() => {
         <div>Pour obtenir un code d'accès :</div>
         <div style={{ color:"#b8962e", marginTop:4 }}>MTN MoMo : 0196049800</div>
         <div style={{ color:"#7a9abf" }}>2 000 FCFA / 30 questions / 30 jours</div>
+        <a href={`https://wa.me/2290196049800?text=${encodeURIComponent("Bonjour, je souhaite acheter un code d'accès pour MISSESSIN (2 000 FCFA / 30 questions).")}`}
+           target="_blank" rel="noopener noreferrer"
+           style={{ display:"inline-flex", alignItems:"center", gap:8, marginTop:14, background:"#25D366", color:"#0b1929", fontWeight:"bold", textDecoration:"none", borderRadius:12, padding:"10px 22px", fontSize:13 }}>
+          💬 Nous contacter sur WhatsApp
+        </a>
       </div>
     </div>
   );
