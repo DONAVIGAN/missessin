@@ -15,7 +15,9 @@ create table if not exists admin_tentatives (
 create index if not exists idx_admin_tentatives_ip_date
   on admin_tentatives (ip, date);
 
--- NOTE RLS : api/admin.js écrit via la clé anonyme (SUPABASE_ANON_KEY), comme
--- pour la table `abonnements`. Aligner la politique RLS de `admin_tentatives`
--- sur celle d'`abonnements` (mêmes droits d'insertion/lecture anon), sinon les
--- insertions de tentatives échoueront silencieusement (best-effort côté code).
+-- Droits pour la clé anon utilisée par api/admin.js : SELECT + INSERT seulement
+-- (pas UPDATE/DELETE) afin qu'un attaquant ne puisse pas remettre son compteur
+-- d'échecs à zéro via la clé anon publique. Sans ces droits, les insertions de
+-- tentatives échouent silencieusement et le rate-limiting ne compte rien.
+grant select, insert on table admin_tentatives to anon, authenticated;
+alter table admin_tentatives disable row level security;
