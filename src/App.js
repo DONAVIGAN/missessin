@@ -228,13 +228,13 @@ useEffect(() => {
       }} disabled={!codeInput || codeLoading} style={{ background:!codeInput||codeLoading?"rgba(80,80,80,.3)":"linear-gradient(135deg,#b8962e,#e8c84a)", border:"none", borderRadius:12, padding:"12px 32px", color:"#0b1929", fontWeight:"bold", fontSize:14, cursor:!codeInput||codeLoading?"not-allowed":"pointer" }}>
         {codeLoading ? "Vérification..." : "Accéder à MISSESSIN"}
       </button>
-      <div style={{ marginTop:24, fontSize:11, color:"#506070", textAlign:"center" }}>
-        <div>Pour obtenir un code d'accès :</div>
-        <div style={{ color:"#b8962e", marginTop:4 }}>MTN MoMo : 0196049800</div>
-        <div style={{ color:"#7a9abf" }}>2 000 FCFA / 30 questions / 30 jours</div>
+      <div style={{ marginTop:24, fontSize:14, color:"#c9d6e6", textAlign:"center", lineHeight:1.6 }}>
+        <div style={{ color:"#e0d4bc" }}>Pour obtenir un code d'accès :</div>
+        <div style={{ color:"#e8c84a", fontSize:17, fontWeight:"bold", marginTop:6 }}>MTN MoMo : 0196049800</div>
+        <div style={{ color:"#c9d6e6", fontSize:13, marginTop:2 }}>2 000 FCFA / 30 questions / 30 jours</div>
         <a href={`https://wa.me/2290196049800?text=${encodeURIComponent("Bonjour, je souhaite acheter un code d'accès pour MISSESSIN (2 000 FCFA / 30 questions).")}`}
            target="_blank" rel="noopener noreferrer"
-           style={{ display:"inline-flex", alignItems:"center", gap:8, marginTop:14, background:"#25D366", color:"#0b1929", fontWeight:"bold", textDecoration:"none", borderRadius:12, padding:"10px 22px", fontSize:13 }}>
+           style={{ display:"inline-flex", alignItems:"center", gap:8, marginTop:16, background:"#25D366", color:"#062a12", fontWeight:"bold", textDecoration:"none", borderRadius:12, padding:"12px 24px", fontSize:15 }}>
           💬 Nous contacter sur WhatsApp
         </a>
       </div>
