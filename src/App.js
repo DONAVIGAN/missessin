@@ -370,24 +370,25 @@ useEffect(() => {
             {loading?"⏳":"➤"}
           </button>
         </div>
+        <div style={{ fontSize:10, color:"#8a97ad", textAlign:"center", marginTop:8, lineHeight:1.4, opacity:.9 }}>
+          ⚠️ Information juridique à titre indicatif — ne remplace pas la consultation d'un avocat.
+        </div>
         <div style={{ display:"flex", gap:6, justifyContent:"center", marginTop:6, flexWrap:"wrap" }}>
           {[[`📗`,"CP",gold],[`📘`,"CPP",blue],[`💻`,"CN",green],[`🌐`,"Web",`#a0a0ff`]].map(([ic,lb,cl])=>(
             <span key={lb} style={{ fontSize:9, color:cl, opacity:.6 }}>{ic} {lb}</span>
           ))}
-          <span style={{ fontSize:9, color:"#4a6080", opacity:.6 }}>· 📎 PDF</span><div style={{ background:"rgba(8,18,32,.97)", borderTop:"1px solid rgba(184,150,46,.15)", padding:"12px 16px", textAlign:"center" }}>
-        <div style={{ fontSize:10, color:"#b8962e", marginBottom:4, letterSpacing:1 }}>DÉVELOPPÉ PAR DONA VIGAN</div>
-        <div style={{ fontSize:10, color:"#7a9abf" }}>📞 WhatsApp : (229) 01 96 04 98 00</div>
-        <div style={{ fontSize:10, color:"#7a9abf" }}>✉️ missessin229@gmail.com</div>
-      </div>
+          <span style={{ fontSize:9, color:"#4a6080", opacity:.6 }}>· 📎 PDF</span>
         </div>
       </div>
 
-      <style>{/* Footer */}
+      {/* Footer */}
       <div style={{ background:"rgba(8,18,32,.97)", borderTop:"1px solid rgba(184,150,46,.15)", padding:"12px 16px", textAlign:"center" }}>
         <div style={{ fontSize:10, color:"#b8962e", marginBottom:4, letterSpacing:1 }}>DÉVELOPPÉ PAR DONA VIGAN</div>
         <div style={{ fontSize:10, color:"#7a9abf" }}>📞 WhatsApp : (229) 01 96 04 98 00</div>
         <div style={{ fontSize:10, color:"#7a9abf" }}>✉️ missessin229@gmail.com</div>
-      </div>{`
+      </div>
+
+      <style>{`
         @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.5}40%{transform:translateY(-6px);opacity:1}}
         textarea:focus{border-color:rgba(184,150,46,.5)!important}
         button:hover:not(:disabled){transform:scale(1.05)}
