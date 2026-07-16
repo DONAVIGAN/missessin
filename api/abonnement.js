@@ -1,8 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
+// Clé service_role de préférence : elle contourne la RLS (accès médiatisé
+// côté serveur uniquement, jamais exposé au client). Fallback vers anon tant
+// que SUPABASE_SERVICE_ROLE_KEY n'est pas configurée sur Vercel.
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY
 );
 
 export default async function handler(req, res) {

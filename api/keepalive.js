@@ -1,8 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
+// service_role de préférence (count fiable même après réactivation de la RLS) ;
+// fallback anon tant que la clé n'est pas configurée.
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY
 );
 
 // Endpoint de "keep-alive" : appelé 1x/jour par un cron pour éviter
