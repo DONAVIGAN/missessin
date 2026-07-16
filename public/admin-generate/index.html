@@ -7,114 +7,269 @@
     <meta name="robots" content="noindex, nofollow" />
     <title>MISSESSIN — Génération de code</title>
     <style>
+      :root {
+        --bg: #0b1929;
+        --bg2: #0e2035;
+        --card: #12233a;
+        --border: #1e3a5f;
+        --gold: #d4af37;
+        --gold-soft: #e8c84a;
+        --text: #e6edf3;
+        --muted: #8aa2bd;
+        --danger: #ff8080;
+        --ok: #60c890;
+      }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
-        background: #0b1929;
-        color: #e6edf3;
+        background:
+          radial-gradient(1200px 500px at 50% -10%, #16304e 0%, transparent 60%),
+          var(--bg);
+        color: var(--text);
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         min-height: 100vh;
         display: flex;
         align-items: flex-start;
         justify-content: center;
-        padding: 24px 16px;
+        padding: 28px 16px 48px;
+        -webkit-font-smoothing: antialiased;
       }
+      .wrap { width: 100%; max-width: 440px; }
+      .brand {
+        text-align: center;
+        margin-bottom: 18px;
+      }
+      .brand .emblem {
+        font-size: 2rem;
+        color: var(--gold);
+        line-height: 1;
+      }
+      .brand h1 { font-size: 1.15rem; margin-top: 6px; letter-spacing: 0.5px; }
+      .brand .tag { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+
       .card {
-        width: 100%;
-        max-width: 420px;
-        background: #12233a;
-        border: 1px solid #1e3a5f;
-        border-radius: 14px;
-        padding: 24px;
+        background: linear-gradient(180deg, var(--card), var(--bg2));
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 22px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.35);
       }
-      h1 { font-size: 1.25rem; margin-bottom: 4px; }
-      .sous-titre { font-size: 0.85rem; color: #8aa2bd; margin-bottom: 20px; }
-      label { display: block; font-size: 0.85rem; margin: 14px 0 6px; color: #b9c9db; }
-      input {
+      .offre {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        font-size: 0.72rem;
+        color: var(--gold-soft);
+        background: rgba(212,175,55,0.08);
+        border: 1px solid rgba(212,175,55,0.25);
+        border-radius: 999px;
+        padding: 4px 10px;
+      }
+      label { display: block; font-size: 0.82rem; margin: 14px 0 6px; color: #b9c9db; }
+      input[type=password], input[type=tel], input[type=text] {
         width: 100%;
-        padding: 12px;
-        border-radius: 8px;
+        padding: 12px 13px;
+        border-radius: 10px;
         border: 1px solid #2a4a70;
-        background: #0b1929;
-        color: #e6edf3;
+        background: var(--bg);
+        color: var(--text);
         font-size: 1rem;
+        transition: border-color .15s;
       }
-      input:focus { outline: none; border-color: #d4af37; }
+      input:focus { outline: none; border-color: var(--gold); }
+      .remember {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+        font-size: 0.82rem;
+        color: var(--muted);
+        cursor: pointer;
+        user-select: none;
+      }
+      .remember input { width: 16px; height: 16px; accent-color: var(--gold); }
       button {
         width: 100%;
-        margin-top: 20px;
         padding: 13px;
         border: none;
-        border-radius: 8px;
-        background: #d4af37;
-        color: #0b1929;
+        border-radius: 10px;
         font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
+        transition: transform .05s, opacity .15s;
       }
-      button:disabled { opacity: 0.6; cursor: not-allowed; }
-      #message { margin-top: 16px; font-size: 0.9rem; color: #ff8080; min-height: 1.2em; }
-      #resultat { margin-top: 20px; display: none; text-align: center; }
-      #resultat .libelle { font-size: 0.85rem; color: #8aa2bd; margin-bottom: 8px; }
+      button:active { transform: translateY(1px); }
+      button:disabled { opacity: 0.55; cursor: not-allowed; }
+      .btn-primary { margin-top: 20px; background: linear-gradient(180deg, var(--gold-soft), var(--gold)); color: var(--bg); }
+      .btn-ghost { background: #1e3a5f; color: var(--text); }
+      .btn-wa { background: #1f8f4e; color: #fff; }
+
+      #message { margin-top: 14px; font-size: 0.88rem; min-height: 1.2em; }
+      #message.err { color: var(--danger); }
+      #message.ok { color: var(--ok); }
+
+      #resultat { margin-top: 22px; display: none; }
+      #resultat .libelle { font-size: 0.82rem; color: var(--muted); margin-bottom: 8px; text-align: center; }
       #code {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         font-weight: 700;
-        letter-spacing: 1px;
-        color: #d4af37;
-        background: #0b1929;
+        letter-spacing: 2px;
+        text-align: center;
+        color: var(--gold);
+        background: var(--bg);
         border: 1px dashed #2a4a70;
-        border-radius: 8px;
-        padding: 14px;
+        border-radius: 10px;
+        padding: 16px;
         word-break: break-all;
       }
-      #copier { background: #1e3a5f; color: #e6edf3; }
+      .meta { text-align: center; font-size: 0.8rem; color: var(--muted); margin-top: 10px; }
+      .actions { display: grid; gap: 10px; margin-top: 16px; }
+      .actions.two { grid-template-columns: 1fr 1fr; }
+
+      .histo { margin-top: 26px; }
+      .histo h2 { font-size: 0.8rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+      .histo ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+      .histo li {
+        display: flex; justify-content: space-between; align-items: center;
+        font-size: 0.85rem; background: var(--bg); border: 1px solid var(--border);
+        border-radius: 8px; padding: 8px 11px;
+      }
+      .histo li .c { color: var(--gold); font-weight: 600; letter-spacing: 0.5px; }
+      .histo li .mini { background: none; border: 1px solid var(--border); color: var(--muted); width: auto; padding: 4px 9px; font-size: 0.75rem; font-weight: 500; border-radius: 6px; }
     </style>
   </head>
   <body>
-    <div class="card">
-      <h1>Génération de code d'accès</h1>
-      <div class="sous-titre">MISSESSIN — Administration</div>
+    <div class="wrap">
+      <div class="brand">
+        <div class="emblem">𓂀</div>
+        <h1>MISSESSIN · Administration</h1>
+        <div class="tag">Génération de codes d'accès</div>
+      </div>
 
-      <label for="password">Mot de passe admin</label>
-      <input id="password" type="password" autocomplete="off" />
+      <div class="card">
+        <div class="offre">
+          <span class="chip">2 000 FCFA</span>
+          <span class="chip">30 questions</span>
+          <span class="chip">30 jours</span>
+        </div>
 
-      <label for="telephone">Téléphone du client (optionnel)</label>
-      <input id="telephone" type="tel" inputmode="tel" autocomplete="off" />
+        <label for="password">Mot de passe admin</label>
+        <input id="password" type="password" autocomplete="off" enterkeyhint="go" />
+        <label class="remember">
+          <input id="remember" type="checkbox" />
+          Retenir le mot de passe sur cet appareil
+        </label>
 
-      <label for="notes">Notes / référence de paiement (optionnel)</label>
-      <input id="notes" type="text" autocomplete="off" />
+        <label for="telephone">Téléphone du client (optionnel — avec indicatif, ex. 229… / 227…)</label>
+        <input id="telephone" type="tel" inputmode="tel" autocomplete="off" />
 
-      <button id="btn">Générer un nouveau code</button>
+        <label for="notes">Notes / réf. paiement (optionnel)</label>
+        <input id="notes" type="text" autocomplete="off" enterkeyhint="go" />
 
-      <div id="message"></div>
+        <button id="btn" class="btn-primary">Générer un code</button>
 
-      <div id="resultat">
-        <div class="libelle">Code généré — à envoyer au client :</div>
-        <div id="code"></div>
-        <button id="copier">Copier le code</button>
+        <div id="message"></div>
+
+        <div id="resultat">
+          <div class="libelle">Code généré — à envoyer au client :</div>
+          <div id="code"></div>
+          <div class="meta" id="meta"></div>
+          <div class="actions two">
+            <button id="copier" class="btn-ghost">Copier le code</button>
+            <button id="copierMsg" class="btn-ghost">Copier le message</button>
+          </div>
+          <div class="actions">
+            <button id="wa" class="btn-wa" style="display:none">Ouvrir WhatsApp</button>
+          </div>
+        </div>
+
+        <div class="histo" id="histoWrap" style="display:none">
+          <h2>Générés dans cette session</h2>
+          <ul id="histo"></ul>
+        </div>
       </div>
     </div>
 
     <script>
-      const btn = document.getElementById('btn');
-      const message = document.getElementById('message');
-      const resultat = document.getElementById('resultat');
+      const $ = (id) => document.getElementById(id);
+      const btn = $('btn'), message = $('message'), resultat = $('resultat');
+      const rememberBox = $('remember'), pwdInput = $('password');
+      const KEY = 'missessin_admin_pwd';
 
-      btn.addEventListener('click', async () => {
-        const password = document.getElementById('password').value.trim();
-        const telephone = document.getElementById('telephone').value.trim();
-        const notes = document.getElementById('notes').value.trim();
+      // --- Retenir le mot de passe (sessionStorage : effacé à la fermeture) ---
+      const saved = sessionStorage.getItem(KEY);
+      if (saved) { pwdInput.value = saved; rememberBox.checked = true; }
+      rememberBox.addEventListener('change', () => {
+        if (rememberBox.checked) sessionStorage.setItem(KEY, pwdInput.value.trim());
+        else sessionStorage.removeItem(KEY);
+      });
+      pwdInput.addEventListener('input', () => {
+        if (rememberBox.checked) sessionStorage.setItem(KEY, pwdInput.value.trim());
+      });
 
-        message.textContent = '';
-        resultat.style.display = 'none';
+      // --- Construction du message client prêt à envoyer ---
+      let dernier = null; // { code, expiration, telephone }
 
-        if (!password) {
-          message.textContent = 'Mot de passe requis.';
-          return;
+      function formatDate(iso) {
+        try {
+          return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        } catch { return ''; }
+      }
+      function messageClient(code, expiration) {
+        const dexp = expiration ? ` (jusqu'au ${formatDate(expiration)})` : '';
+        return (
+          'Bonjour 🙏 Voici votre code d\'accès MISSESSIN :\n' +
+          '👉 ' + code + '\n\n' +
+          '✅ 30 questions · valable 30 jours' + dexp + '\n' +
+          '🔗 Rendez-vous sur https://missessin.com et saisissez ce code.\n\n' +
+          'Merci de votre confiance !'
+        );
+      }
+
+      function afficherResultat(code, expiration, telephone) {
+        dernier = { code, expiration, telephone };
+        $('code').textContent = code;
+        $('meta').textContent = expiration ? 'Valable jusqu\'au ' + formatDate(expiration) + ' · 30 questions' : '30 questions · 30 jours';
+        resultat.style.display = 'block';
+
+        // Bouton WhatsApp si un numéro est fourni
+        const wa = $('wa');
+        const num = (telephone || '').replace(/\D/g, '');
+        if (num.length >= 8) {
+          wa.style.display = 'block';
+          wa.onclick = () => {
+            window.open('https://wa.me/' + num + '?text=' + encodeURIComponent(messageClient(code, expiration)), '_blank');
+          };
+        } else {
+          wa.style.display = 'none';
         }
+        ajouterHisto(code);
+      }
 
-        btn.disabled = true;
-        btn.textContent = 'Génération...';
+      // --- Historique de session ---
+      function ajouterHisto(code) {
+        $('histoWrap').style.display = 'block';
+        const li = document.createElement('li');
+        const span = document.createElement('span'); span.className = 'c'; span.textContent = code;
+        const b = document.createElement('button'); b.className = 'mini'; b.textContent = 'Copier';
+        b.onclick = () => { navigator.clipboard.writeText(code); b.textContent = 'Copié ✓'; setTimeout(() => b.textContent = 'Copier', 1200); };
+        li.appendChild(span); li.appendChild(b);
+        $('histo').prepend(li);
+      }
 
+      // --- Génération ---
+      async function generer() {
+        const password = pwdInput.value.trim();
+        const telephone = $('telephone').value.trim();
+        const notes = $('notes').value.trim();
+
+        message.textContent = ''; message.className = '';
+        if (!password) { message.textContent = 'Mot de passe requis.'; message.className = 'err'; return; }
+
+        btn.disabled = true; btn.textContent = 'Génération…';
         try {
           const r = await fetch('/api/admin', {
             method: 'POST',
@@ -122,27 +277,35 @@
             body: JSON.stringify({ password, telephone, notes })
           });
           const data = await r.json();
-
           if (!r.ok) {
-            message.textContent = data.error || ('Erreur (' + r.status + ').');
+            message.className = 'err';
+            if (r.status === 429) message.textContent = 'Trop de tentatives — réessayez dans quelques minutes.';
+            else if (r.status === 401) message.textContent = 'Mot de passe incorrect.';
+            else message.textContent = data.error || ('Erreur (' + r.status + ').');
           } else {
-            document.getElementById('code').textContent = data.code;
-            resultat.style.display = 'block';
+            message.className = 'ok'; message.textContent = 'Code généré ✓';
+            afficherResultat(data.code, data.data && data.data.date_expiration, telephone);
           }
         } catch (e) {
-          message.textContent = 'Erreur réseau : ' + e.message;
+          message.className = 'err'; message.textContent = 'Erreur réseau : ' + e.message;
         } finally {
-          btn.disabled = false;
-          btn.textContent = 'Générer un nouveau code';
+          btn.disabled = false; btn.textContent = 'Générer un code';
         }
-      });
+      }
 
-      document.getElementById('copier').addEventListener('click', () => {
-        const code = document.getElementById('code').textContent;
-        navigator.clipboard.writeText(code).then(() => {
-          const b = document.getElementById('copier');
-          b.textContent = 'Copié ✓';
-          setTimeout(() => { b.textContent = 'Copier le code'; }, 1500);
+      btn.addEventListener('click', generer);
+      [pwdInput, $('notes')].forEach(el => el.addEventListener('keydown', e => { if (e.key === 'Enter') generer(); }));
+
+      $('copier').addEventListener('click', () => {
+        if (!dernier) return;
+        navigator.clipboard.writeText(dernier.code).then(() => {
+          const b = $('copier'); b.textContent = 'Copié ✓'; setTimeout(() => b.textContent = 'Copier le code', 1500);
+        });
+      });
+      $('copierMsg').addEventListener('click', () => {
+        if (!dernier) return;
+        navigator.clipboard.writeText(messageClient(dernier.code, dernier.expiration)).then(() => {
+          const b = $('copierMsg'); b.textContent = 'Message copié ✓'; setTimeout(() => b.textContent = 'Copier le message', 1500);
         });
       });
     </script>
